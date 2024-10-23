@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.hiss'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+dependencies {
+    implementation 'org.hibernate.orm:hibernate-core:6.5.2.Final'
+    runtimeOnly 'org.postgresql:postgresql:42.7.3'
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.34'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+    testImplementation platform('org.junit:junit-bom:5.10.3')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
