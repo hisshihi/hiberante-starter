@@ -3,6 +3,7 @@ package org.hiss.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
+import org.hiss.converter.BirthdayConverter;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -22,8 +23,7 @@ public class User {
     private String firstname;
     private String lastname;
     @Column(name = "birth_date")
-    private LocalDate birthDate;
-    private Integer age;
+    private Birthday birthDate;
     // Добавил строковое представление роли пользователя
     @Enumerated(EnumType.STRING)
     private Role role;

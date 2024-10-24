@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.time.LocalDate;
 import java.util.Arrays;
 
 import static java.util.Optional.ofNullable;
@@ -21,11 +20,6 @@ class MainTest {
     @Test
     void checkReflectionApi() {
         User user = User.builder()
-                .username("hiss@gmail.com")
-                .age(22)
-                .firstname("Hiss")
-                .birthDate(LocalDate.of(2002, 10, 18))
-                .lastname("Dev")
                 .build();
 
         String sql = """
