@@ -3,9 +3,7 @@ package org.hiss.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
-import org.hiss.converter.BirthdayConverter;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 @Getter
