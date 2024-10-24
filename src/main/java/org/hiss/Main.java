@@ -3,6 +3,7 @@ package org.hiss;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hiss.entity.Role;
 import org.hiss.entity.User;
 
 import java.time.LocalDate;
@@ -23,6 +24,7 @@ public class Main {
                     .firstname("Hiss")
                     .birthDate(LocalDate.of(2002, 10, 18))
                     .lastname("Dev")
+                    .role(Role.ADMIN)
                     .build();
             // Сохраняем её
             session.save(user);

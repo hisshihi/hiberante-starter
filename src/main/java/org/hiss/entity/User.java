@@ -1,9 +1,6 @@
 package org.hiss.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
@@ -27,6 +24,9 @@ public class User {
     @Column(name = "birth_date")
     private LocalDate birthDate;
     private Integer age;
+    // Добавил строковое представление роли пользователя
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Override
     public final boolean equals(Object o) {
