@@ -17,6 +17,19 @@ import java.util.Objects;
 public class User {
 
     @Id
+    /*
+    * GenerationType.AUTO - просто использует IDENTITY или другое, в зависимости от диалекта бд
+    * GenerationType.IDENTITY - самая предпочтительная
+    * GenerationType.SEQEUNCE - самый обычный счётчик(есть не во всех бд). Можно создать его самому
+    *   @SequenceGenerator - для генерации счётчика
+    *   @GeneratedValue(generator = "user_gen", strategy = GenerationType.SEQUENCE)
+    *   @SequenceGenerator(name = "user_gen", sequenceName = "users_id_seq", allocationSize = 1)
+    * GenerationType.TABLE - если бд не поддерживает предыдущие методы, т.е. для старых бд, не поддерживающих автогенирацию либо счётчики
+    * */
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, nullable = false)
     private String username;
 
     // Встраиваемый класс
