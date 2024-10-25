@@ -20,7 +20,7 @@ public class Main {
     public static void main(String[] args) {
 
         User user = User.builder()
-                .username("hiss@gmail.com")
+                .username("hiss1@gmail.com")
                 .personalInfo(PersonalInfo.builder()
                         .lastName("Hiss")
                         .firstName("Dev")
@@ -43,6 +43,15 @@ public class Main {
                 session1.getTransaction().commit();
             }
             log.warn("User is in detached state: {}, session is closed {}", user, session1);
+            try (Session session = sessionFactory.openSession()) {
+                PersonalInfo key = PersonalInfo.builder()
+                        .lastName("Hiss")
+                        .firstName("Dev")
+                        .birthDate(new Birthday(LocalDate.of(2002, 10, 18)))
+                        .build();
+                User user1 = session.get(User.class, key);
+                System.out.println(user1);
+            }
         } catch (Exception e) {
             log.error("Exception occurred,", e);
             throw e;

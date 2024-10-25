@@ -16,24 +16,24 @@ import java.util.Objects;
 @Table(name = "users", schema = "public")
 public class User {
 
-    @Id
+//    @Id
     /*
-    * GenerationType.AUTO - просто использует IDENTITY или другое, в зависимости от диалекта бд
-    * GenerationType.IDENTITY - самая предпочтительная
-    * GenerationType.SEQEUNCE - самый обычный счётчик(есть не во всех бд). Можно создать его самому
-    *   @SequenceGenerator - для генерации счётчика
-    *   @GeneratedValue(generator = "user_gen", strategy = GenerationType.SEQUENCE)
-    *   @SequenceGenerator(name = "user_gen", sequenceName = "users_id_seq", allocationSize = 1)
-    * GenerationType.TABLE - если бд не поддерживает предыдущие методы, т.е. для старых бд, не поддерживающих автогенирацию либо счётчики
-    * */
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+     * GenerationType.AUTO - просто использует IDENTITY или другое, в зависимости от диалекта бд
+     * GenerationType.IDENTITY - самая предпочтительная
+     * GenerationType.SEQEUNCE - самый обычный счётчик(есть не во всех бд). Можно создать его самому
+     *   @SequenceGenerator - для генерации счётчика
+     *   @GeneratedValue(generator = "user_gen", strategy = GenerationType.SEQUENCE)
+     *   @SequenceGenerator(name = "user_gen", sequenceName = "users_id_seq", allocationSize = 1)
+     * GenerationType.TABLE - если бд не поддерживает предыдущие методы, т.е. для старых бд, не поддерживающих автогенирацию либо счётчики
+     * */
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
     @Column(unique = true, nullable = false)
     private String username;
 
     // Встраиваемый класс
-    @Embedded
+    @EmbeddedId
     // Переопеределение поля в встроенном классе
     @AttributeOverride(name = "birthDate", column = @Column(name = "birth_date"))
     private PersonalInfo personalInfo;
