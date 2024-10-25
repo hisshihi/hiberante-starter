@@ -18,10 +18,13 @@ public class User {
 
     @Id
     private String username;
-    private String firstname;
-    private String lastname;
-    @Column(name = "birth_date")
-    private Birthday birthDate;
+
+    // Встраиваемый класс
+    @Embedded
+    // Переопеределение поля в встроенном классе
+    @AttributeOverride(name = "birthDate", column = @Column(name = "birth_date"))
+    private PersonalInfo personalInfo;
+
     // Добавил строковое представление роли пользователя
     @Enumerated(EnumType.STRING)
     private Role role;
