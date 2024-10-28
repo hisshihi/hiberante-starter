@@ -14,6 +14,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @ToString
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "users", schema = "public")
 //@Access(AccessType.FIELD)
@@ -32,11 +33,15 @@ public class User {
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long id;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(unique = true, nullable = false)
     private String username;
 
     // Встраиваемый класс
-    @EmbeddedId
+//    @EmbeddedId
     // Переопеределение поля в встроенном классе
     @AttributeOverride(name = "birthDate", column = @Column(name = "birth_date"))
     private PersonalInfo personalInfo;
@@ -47,16 +52,8 @@ public class User {
 //    @Transient
     private Role role;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(username, user.username) && Objects.equals(personalInfo, user.personalInfo) && role == user.role;
-    }
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company companyId;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(username, personalInfo, role);
-    }
 }

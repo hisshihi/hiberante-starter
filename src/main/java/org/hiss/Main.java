@@ -4,10 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hiss.entity.Birthday;
-import org.hiss.entity.PersonalInfo;
-import org.hiss.entity.Role;
-import org.hiss.entity.User;
+import org.hiss.entity.*;
 import org.hiss.util.HibernateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +16,10 @@ public class Main {
 
     public static void main(String[] args) {
 
+        Company company = Company.builder()
+                .name("Контур")
+                .build();
+
         User user = User.builder()
                 .username("hiss1@gmail.com")
                 .personalInfo(PersonalInfo.builder()
@@ -27,34 +28,19 @@ public class Main {
                         .birthDate(new Birthday(LocalDate.of(2002, 10, 18)))
                         .build())
                 .role(Role.USER)
+                .companyId(company)
                 .build();
 
-        log.info("User entity is in transient state, object {}", user);
-
         try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory()) {
-            Session session1 = sessionFactory.openSession();
-            try (session1) {
-                Transaction transaction = session1.beginTransaction();
-                log.trace("Transaction is created {}", transaction);
+            Session session = sessionFactory.openSession();
+            try (session) {
+                Transaction transaction = session.beginTransaction();
 
-                session1.saveOrUpdate(user);
-                log.trace("User is in persistent state: {}, session {}", user, transaction);
+                session.persist(company);
+                session.persist(user);
 
-                session1.getTransaction().commit();
+                session.getTransaction().commit();
             }
-            log.warn("User is in detached state: {}, session is closed {}", user, session1);
-            try (Session session = sessionFactory.openSession()) {
-                PersonalInfo key = PersonalInfo.builder()
-                        .lastName("Hiss")
-                        .firstName("Dev")
-                        .birthDate(new Birthday(LocalDate.of(2002, 10, 18)))
-                        .build();
-                User user1 = session.get(User.class, key);
-                System.out.println(user1);
-            }
-        } catch (Exception e) {
-            log.error("Exception occurred,", e);
-            throw e;
         }
     }
 }
