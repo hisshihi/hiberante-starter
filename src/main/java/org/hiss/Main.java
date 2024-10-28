@@ -36,8 +36,10 @@ public class Main {
             try (session) {
                 Transaction transaction = session.beginTransaction();
 
-                session.persist(company);
-                session.persist(user);
+                User user1 = session.get(User.class, 1L);
+//                log.info("User: {}", user1);
+//                session.persist(company);
+//                session.persist(user);
 
                 session.getTransaction().commit();
             }

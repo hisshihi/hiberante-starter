@@ -12,7 +12,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = "companyId")
 @Builder
 @EqualsAndHashCode
 @Entity
@@ -52,7 +52,11 @@ public class User {
 //    @Transient
     private Role role;
 
-    @ManyToOne
+    /*
+    * optional = false - получаем NOT NULL
+    * fetch = FetchType.LAZY - каким образом получаем данные
+    * */
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company companyId;
 
