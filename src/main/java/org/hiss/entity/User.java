@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 @Getter
@@ -14,6 +16,7 @@ import java.util.Objects;
 @Builder
 @Entity
 @Table(name = "users", schema = "public")
+//@Access(AccessType.FIELD)
 public class User {
 
 //    @Id
@@ -40,21 +43,20 @@ public class User {
 
     // Добавил строковое представление роли пользователя
     @Enumerated(EnumType.STRING)
+    // Если не хотим отправлять и получать это поле в бд
+//    @Transient
     private Role role;
 
     @Override
-    public final boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null) return false;
-        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
-        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
-        if (thisEffectiveClass != oEffectiveClass) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return getUsername() != null && Objects.equals(getUsername(), user.getUsername());
+        return Objects.equals(username, user.username) && Objects.equals(personalInfo, user.personalInfo) && role == user.role;
     }
 
     @Override
-    public final int hashCode() {
-        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    public int hashCode() {
+        return Objects.hash(username, personalInfo, role);
     }
 }
