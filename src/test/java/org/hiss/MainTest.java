@@ -14,13 +14,45 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Arrays;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 class MainTest {
+
+    @Test
+    void deleteCompany() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        Company company = session.get(Company.class, 4);
+        session.remove(company);
+
+        session.getTransaction().commit();
+    }
+
+    @Test
+    void addUserToNewCompany() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        Company company = Company.builder()
+                .name("Google")
+                .build();
+
+        User user = User.builder()
+                .username("arina@gmail.com")
+                .build();
+
+        company.addUser(user);
+
+        session.persist(company);
+
+        session.getTransaction().commit();
+    }
 
     @Test
     void oneToMany() {
