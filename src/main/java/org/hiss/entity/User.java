@@ -13,9 +13,9 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "companyId")
+@ToString(exclude = "username")
 @Builder
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "username")
 @Entity
 @Table(name = "users", schema = "public")
 //@Access(AccessType.FIELD)
