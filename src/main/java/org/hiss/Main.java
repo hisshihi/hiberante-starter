@@ -17,11 +17,11 @@ public class Main {
     public static void main(String[] args) {
 
         Company company = Company.builder()
-                .name("Контур")
+                .name("Amazon")
                 .build();
 
         User user = User.builder()
-                .username("hiss1@gmail.com")
+                .username("hiss@gmail.com")
                 .personalInfo(PersonalInfo.builder()
                         .lastName("Hiss")
                         .firstName("Dev")
@@ -36,10 +36,7 @@ public class Main {
             try (session) {
                 Transaction transaction = session.beginTransaction();
 
-                User user1 = session.get(User.class, 1L);
-//                log.info("User: {}", user1);
-//                session.persist(company);
-//                session.persist(user);
+                session.persist(user);
 
                 session.getTransaction().commit();
             }

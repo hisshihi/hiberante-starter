@@ -55,8 +55,11 @@ public class User {
     /*
     * optional = false - получаем NOT NULL
     * fetch = FetchType.LAZY - каким образом получаем данные
+    * cascade = CascadeType.DETACH - удаление из сессии вместе с зависимым объектом
+    * cascade = CascadeType.PERSIST - сохранение вместе с зависимым объектом
+    *   (но лучше так не делать, потому что объект company уже должен существовать на момент сохранения пользователя)
     * */
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST})
     @JoinColumn(name = "company_id")
     private Company companyId;
 
