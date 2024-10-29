@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hiss.entity.Company;
@@ -61,7 +62,8 @@ class MainTest {
         session.beginTransaction();
 
         Company company = session.get(Company.class, 1);
-        System.out.println("");
+        Hibernate.initialize(company.getUsers());
+        System.out.println(company.getUsers());
 
         session.getTransaction().commit();
     }
