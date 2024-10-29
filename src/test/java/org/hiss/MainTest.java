@@ -2,8 +2,13 @@ package org.hiss;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
+import lombok.Cleanup;
 import lombok.SneakyThrows;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hiss.entity.Company;
 import org.hiss.entity.User;
+import org.hiss.util.HibernateUtil;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -16,6 +21,19 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 class MainTest {
+
+    @Test
+    void oneToMany() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        Company company = session.get(Company.class, 1);
+        System.out.println("");
+
+        session.getTransaction().commit();
+    }
+
 
     @SneakyThrows
     @Test

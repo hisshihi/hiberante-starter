@@ -1,18 +1,16 @@
 package org.hiss.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "users")
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = "users")
 @Builder
 @Entity
 public class Company {
@@ -23,16 +21,11 @@ public class Company {
 
     private String name;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Company company = (Company) o;
-        return Objects.equals(id, company.id) && Objects.equals(name, company.name);
-    }
+    /*
+     * mappedBy - орагнизация связи
+     * */
+    @OneToMany(mappedBy = "companyId")
+//    @JoinColumn(name = "company_id")
+    private Set<User> users;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
 }
