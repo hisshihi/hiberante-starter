@@ -28,7 +28,7 @@ public class Company {
      * mappedBy - орагнизация связи
      * cascade = CascadeType.ALL - все операции совершаемые с команией также будут применимы к пользователям в этой компании
      * */
-    @OneToMany(mappedBy = "companyId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "companyId", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @Builder.Default // Указываем, чтобы установились дефолтные значения

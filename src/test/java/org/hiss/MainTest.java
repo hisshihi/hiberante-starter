@@ -16,11 +16,42 @@ import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Arrays;
+import java.util.Set;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 class MainTest {
+
+    @Test
+    void checkOrhanRemoval() {
+        try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+             Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            // Получение объекта как прокси
+            Company company = session.getReference(Company.class, 1);
+            company.getUsers().removeIf(user -> user.getId().equals(1L));
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Test
+    void checkLazyInitialisation() {
+        Company company = null;
+        try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+             Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            // Получение объекта как прокси
+            company = session.getReference(Company.class, 1);
+
+            session.getTransaction().commit();
+        }
+        Set<User> users = company.getUsers();
+        System.out.println(users.size());
+    }
 
     @Test
     void deleteCompany() {

@@ -60,7 +60,7 @@ public class User {
     * cascade = CascadeType.PERSIST - сохранение вместе с зависимым объектом
     *   (но лучше так не делать, потому что объект company уже должен существовать на момент сохранения пользователя)
     * */
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
     private Company companyId;
 
