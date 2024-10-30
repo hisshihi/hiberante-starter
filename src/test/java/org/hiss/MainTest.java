@@ -7,6 +7,7 @@ import lombok.SneakyThrows;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hiss.entity.Chat;
 import org.hiss.entity.Company;
 import org.hiss.entity.Profile;
 import org.hiss.entity.User;
@@ -23,6 +24,28 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 class MainTest {
+
+    @Test
+    void checkManyToMany() {
+        try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+             Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            User user = session.get(User.class, 6L);
+            user.getChats().clear();
+
+//            Chat chat = Chat.builder()
+//                    .name("hiss")
+//                    .build();
+//
+//            user.addChat(chat);
+//
+//            session.persist(chat);
+
+            session.getTransaction().commit();
+
+        }
+    }
 
     @Test
     void checkOneToOne() {
