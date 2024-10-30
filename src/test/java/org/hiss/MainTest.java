@@ -30,19 +30,19 @@ class MainTest {
              Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            User user = session.get(User.class, 4L);
+            User user = session.get(User.class, 6L);
             System.out.println();
 
 //            User user = User.builder()
-//                    .username("test@gmail.com")
+//                    .username("test1@gmail.com")
 //                    .build();
 //            Profile profile = Profile.builder()
 //                    .language("ru")
 //                    .street("Gogolya 128")
 //                    .build();
 //
-//            session.persist(user);
 //            profile.setUser(user);
+//            session.persist(user);
 
             session.getTransaction().commit();
         }

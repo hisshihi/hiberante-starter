@@ -15,20 +15,19 @@ import java.util.Objects;
 public class Profile {
 
     @Id
-    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String street;
     private String language;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "user_id")
     private User user;
 
     public void setUser(User user) {
         user.setProfile(this);
         this.user = user;
-        this.id = user.getId();
     }
 
     @Override

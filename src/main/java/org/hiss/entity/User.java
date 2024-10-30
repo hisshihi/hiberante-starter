@@ -65,7 +65,11 @@ public class User {
     private Company companyId;
 
 //    Зависимая сущность профиля
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            mappedBy = "user",
+            fetch = FetchType.LAZY,
+            optional = false)
     private Profile profile;
 
 }
