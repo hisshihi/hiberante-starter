@@ -7,16 +7,14 @@ import lombok.SneakyThrows;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hiss.entity.Chat;
-import org.hiss.entity.Company;
-import org.hiss.entity.Profile;
-import org.hiss.entity.User;
+import org.hiss.entity.*;
 import org.hiss.util.HibernateUtil;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -32,7 +30,18 @@ class MainTest {
             session.beginTransaction();
 
             User user = session.get(User.class, 6L);
-            user.getChats().clear();
+            Chat chat = session.get(Chat.class, 3);
+
+            UserChat userChat = UserChat.builder()
+                    .createdAt(Instant.now())
+                    .createdBy(user.getUsername())
+                    .build();
+            userChat.setUser(user);
+            userChat.setChat(chat);
+
+            session.persist(userChat);
+
+//            user.getChats().clear();
 
 //            Chat chat = Chat.builder()
 //                    .name("hiss")

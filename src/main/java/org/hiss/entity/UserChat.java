@@ -4,9 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.util.HashSet;
+import java.time.Instant;
 import java.util.Objects;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,19 +14,37 @@ import java.util.Set;
 @Builder
 @ToString
 @Entity
-public class Chat {
+@Table(name = "users_chat")
+public class UserChat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
-
-    @OneToMany(mappedBy = "chat")
-    @Builder.Default
+    @ManyToOne
     @ToString.Exclude
-    private Set<UserChat> userChats = new HashSet<>();
+    private User user;
+
+    @ManyToOne
+    @ToString.Exclude
+    @JoinColumn(name = "chat_id")
+    private Chat chat;
+
+    @Column(name = "created_at")
+    private Instant createdAt;
+
+    @Column(name = "created_by")
+    private String createdBy;
+
+    public void setUser(User user) {
+        this.user = user;
+        this.user.getUserChats().add(this);
+    }
+
+    public void setChat(Chat chat) {
+        this.chat = chat;
+        this.chat.getUserChats().add(this);
+    }
 
     @Override
     public final boolean equals(Object o) {
@@ -36,8 +53,8 @@ public class Chat {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        Chat chat = (Chat) o;
-        return getId() != null && Objects.equals(getId(), chat.getId());
+        UserChat userChat = (UserChat) o;
+        return getId() != null && Objects.equals(getId(), userChat.getId());
     }
 
     @Override

@@ -17,6 +17,7 @@
     <mapping class="org.hiss.entity.Company"/>
     <mapping class="org.hiss.entity.Profile"/>
     <mapping class="org.hiss.entity.Chat"/>
+    <mapping class="org.hiss.entity.UserChat"/>
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
   </session-factory>
