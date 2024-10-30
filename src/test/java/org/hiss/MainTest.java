@@ -116,10 +116,17 @@ class MainTest {
         @Cleanup Session session = sessionFactory.openSession();
         session.beginTransaction();
 
-        Company company = session.get(Company.class, 4);
+        Company newCompany = Company.builder()
+                .id(4)
+                .name("Amazon")
+                .build();
+
+        System.out.println(newCompany);
+        Company company = session.get(Company.class, newCompany.getId());
         session.remove(company);
 
         session.getTransaction().commit();
+
     }
 
     @Test
