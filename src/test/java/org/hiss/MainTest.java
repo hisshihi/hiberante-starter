@@ -8,6 +8,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hiss.entity.Company;
+import org.hiss.entity.Profile;
 import org.hiss.entity.User;
 import org.hiss.util.HibernateUtil;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,30 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 class MainTest {
+
+    @Test
+    void checkOneToOne() {
+        try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+             Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            User user = session.get(User.class, 4L);
+            System.out.println();
+
+//            User user = User.builder()
+//                    .username("test@gmail.com")
+//                    .build();
+//            Profile profile = Profile.builder()
+//                    .language("ru")
+//                    .street("Gogolya 128")
+//                    .build();
+//
+//            session.persist(user);
+//            profile.setUser(user);
+
+            session.getTransaction().commit();
+        }
+    }
 
     @Test
     void checkOrhanRemoval() {

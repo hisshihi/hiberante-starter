@@ -13,7 +13,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "username")
+@ToString(exclude = {"company", "profile"})
 @Builder
 @EqualsAndHashCode(of = "username")
 @Entity
@@ -63,5 +63,9 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
     private Company companyId;
+
+//    Зависимая сущность профиля
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private Profile profile;
 
 }

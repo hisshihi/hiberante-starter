@@ -15,6 +15,7 @@
 <!--    Добавил сущность для отслеживания hibernate`ом-->
     <mapping class="org.hiss.entity.User"/>
     <mapping class="org.hiss.entity.Company"/>
+    <mapping class="org.hiss.entity.Profile"/>
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
   </session-factory>
