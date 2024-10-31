@@ -24,6 +24,22 @@ import static java.util.stream.Collectors.joining;
 class MainTest {
 
     @Test
+    void localeInfo() {
+        try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+             Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            Company company = session.get(Company.class, 1);
+//            company.getLocales().add(LocaleInfo.of("ru", "Описание на русском языке"));
+//            company.getLocales().add(LocaleInfo.of("en", "English description"));
+            System.out.println(company.getLocales());
+
+            session.getTransaction().commit();
+
+        }
+    }
+
+    @Test
     void checkManyToMany() {
         try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
              Session session = sessionFactory.openSession()) {

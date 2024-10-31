@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -40,6 +38,16 @@ public class Company {
         users.add(user);
         user.setCompanyId(this);
     }
+
+//    Обозначаем, что это не самостоятельная сущность
+    @ElementCollection
+    @Builder.Default
+    @CollectionTable(name = "company_locale", joinColumns = @JoinColumn(name = "company_id"))
+//    @AttributeOverride(name = "lang", column = @Column(name = "language"))
+//    private List<LocaleInfo> locales = new ArrayList<>();
+    // Используем эту таблицу только на чтение
+    @Column(name = "description")
+    private List<String> locales = new ArrayList<>();
 
     @Override
     public final boolean equals(Object o) {
