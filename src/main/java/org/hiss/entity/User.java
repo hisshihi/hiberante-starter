@@ -17,7 +17,7 @@ import java.util.*;
 @Entity
 @Table(name = "users", schema = "public")
 //@Access(AccessType.FIELD)
-public class User {
+public class User implements Comparable<User> {
 
 //    @Id
     /*
@@ -74,4 +74,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<UserChat> userChats = new ArrayList<>();
 
+    @Override
+    public int compareTo(User o) {
+        return username.compareTo(o.username);
+    }
 }

@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import static java.util.Optional.ofNullable;
@@ -32,7 +33,7 @@ class MainTest {
             Company company = session.get(Company.class, 1);
 //            company.getLocales().add(LocaleInfo.of("ru", "Описание на русском языке"));
 //            company.getLocales().add(LocaleInfo.of("en", "English description"));
-            System.out.println(company.getLocales());
+            company.getUsers().forEach(System.out::println);
 
             session.getTransaction().commit();
 

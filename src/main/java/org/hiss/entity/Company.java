@@ -2,6 +2,7 @@ package org.hiss.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SortNatural;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.*;
@@ -28,18 +29,17 @@ public class Company {
      * */
     @OneToMany(mappedBy = "companyId", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
+    // Сортировка коллекций
+//    @OrderBy("personalInfo.firstName")
+    // Сортировка только по спискам и только по int
+//    @OrderColumn(name = "id")
+    @SortNatural // Сортировка по tree set
     @EqualsAndHashCode.Exclude
     @Builder.Default // Указываем, чтобы установились дефолтные значения
 //    @JoinColumn(name = "company_id")
 //    Чтобы избежать исключение на null, нужно использовать HasnSet(либо по случаю, чтобы при извлечении небыло пустых позиций)
-    private Set<User> users = new HashSet<>();
-
-    public void addUser(User user) {
-        users.add(user);
-        user.setCompanyId(this);
-    }
-
-//    Обозначаем, что это не самостоятельная сущность
+    private SortedSet<User> users = new TreeSet<>();
+    //    Обозначаем, что это не самостоятельная сущность
     @ElementCollection
     @Builder.Default
     @CollectionTable(name = "company_locale", joinColumns = @JoinColumn(name = "company_id"))
@@ -48,6 +48,11 @@ public class Company {
     // Используем эту таблицу только на чтение
     @Column(name = "description")
     private List<String> locales = new ArrayList<>();
+
+    public void addUser(User user) {
+        users.add(user);
+        user.setCompanyId(this);
+    }
 
     @Override
     public final boolean equals(Object o) {
