@@ -25,6 +25,22 @@ import static java.util.stream.Collectors.joining;
 class MainTest {
 
     @Test
+    void checkH2() {
+        try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+             Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            Company company = Company.builder()
+                    .name("Amazon")
+                    .build();
+            session.persist(company);
+
+            session.getTransaction().commit();
+
+        }
+    }
+
+    @Test
     void localeInfo() {
         try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
              Session session = sessionFactory.openSession()) {
