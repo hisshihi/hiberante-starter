@@ -29,16 +29,11 @@ public class Company {
      * */
     @OneToMany(mappedBy = "companyId", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    // Сортировка коллекций
-//    @OrderBy("personalInfo.firstName")
-    // Сортировка только по спискам и только по int
-//    @OrderColumn(name = "id")
-    @SortNatural // Сортировка по tree set
     @EqualsAndHashCode.Exclude
     @Builder.Default // Указываем, чтобы установились дефолтные значения
-//    @JoinColumn(name = "company_id")
-//    Чтобы избежать исключение на null, нужно использовать HasnSet(либо по случаю, чтобы при извлечении небыло пустых позиций)
-    private SortedSet<User> users = new TreeSet<>();
+    @MapKey(name = "username") // Указываем, какое поле будет ключом
+    @SortNatural
+    private Map<String, User> users = new TreeMap<>();
     //    Обозначаем, что это не самостоятельная сущность
     @ElementCollection
     @Builder.Default
@@ -47,10 +42,11 @@ public class Company {
 //    private List<LocaleInfo> locales = new ArrayList<>();
     // Используем эту таблицу только на чтение
     @Column(name = "description")
-    private List<String> locales = new ArrayList<>();
+    @MapKeyColumn(name = "lang") // Для element collection
+    private Map<String, String> locales = new HashMap<>();
 
     public void addUser(User user) {
-        users.add(user);
+        users.put(user.getUsername(), user);
         user.setCompanyId(this);
     }
 

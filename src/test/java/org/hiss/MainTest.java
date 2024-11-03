@@ -33,7 +33,10 @@ class MainTest {
             Company company = session.get(Company.class, 1);
 //            company.getLocales().add(LocaleInfo.of("ru", "Описание на русском языке"));
 //            company.getLocales().add(LocaleInfo.of("en", "English description"));
-            company.getUsers().forEach(System.out::println);
+            long start = System.currentTimeMillis();
+            company.getUsers().forEach((k, v) -> System.out.println(v));
+            long end = System.currentTimeMillis();
+            System.out.println(end - start);
 
             session.getTransaction().commit();
 
@@ -105,7 +108,7 @@ class MainTest {
 
             // Получение объекта как прокси
             Company company = session.getReference(Company.class, 1);
-            company.getUsers().removeIf(user -> user.getId().equals(1L));
+//            company.getUsers().removeIf(user -> user.getId().equals(1L));
 
             session.getTransaction().commit();
         }
@@ -123,8 +126,8 @@ class MainTest {
 
             session.getTransaction().commit();
         }
-        Set<User> users = company.getUsers();
-        System.out.println(users.size());
+//        Set<User> users = company.getUsers();
+//        System.out.println(users.size());
     }
 
     @Test
