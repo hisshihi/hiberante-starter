@@ -16,8 +16,7 @@ import java.util.*;
 @Entity
 @Table(name = "users", schema = "public")
 //@Access(AccessType.FIELD)
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User implements Comparable<User>, BaseEntity<Long> {
 
 //    @Id

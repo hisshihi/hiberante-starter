@@ -2,6 +2,7 @@ package org.hiss.entity;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.*;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@DiscriminatorValue("manager")
+@PrimaryKeyJoinColumn(name = "id") // Обозначаем, что связываем первычный ключ объекта с Супер классом
 public class Manager extends User {
 
     private String projectName;
