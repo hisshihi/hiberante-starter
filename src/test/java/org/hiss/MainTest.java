@@ -1,29 +1,40 @@
 package org.hiss;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
 import lombok.Cleanup;
-import lombok.SneakyThrows;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.hiss.entity.*;
 import org.hiss.util.HibernateTestUtil;
 import org.hiss.util.HibernateUtil;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.joining;
 
 class MainTest {
+
+    @Test
+    void checkHql() {
+        try (SessionFactory sessionFactory = HibernateTestUtil.buildSessionFactory();
+             Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+//            select u.* from users u where u.personalInfo.firstName = 'Hiss'
+            List<User> query = session.createQuery(
+                    "select u from User u" +
+                    " left join u.company c " +
+                    "where u.personalInfo.firstName = :firstName and c.name = :companyName " +
+                    "order by u.personalInfo.lastName desc", User.class
+            )
+                    .setParameter("firstName", "Hiss")
+                    .setParameter("companyName", "Google")
+                    .list();
+
+            session.getTransaction().commit();
+
+        }
+    }
 
     @Test
     void checkH2() {
@@ -222,7 +233,7 @@ class MainTest {
     }
 
 
-//    @SneakyThrows
+    //    @SneakyThrows
     @Test
     void checkReflectionApi() {
 //        User user = User.builder()
