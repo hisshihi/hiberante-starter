@@ -8,6 +8,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hiss.entity.*;
+import org.hiss.util.HibernateTestUtil;
 import org.hiss.util.HibernateUtil;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +27,7 @@ class MainTest {
 
     @Test
     void checkH2() {
-        try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        try (SessionFactory sessionFactory = HibernateTestUtil.buildSessionFactory();
              Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
