@@ -1,5 +1,6 @@
 package org.hiss.entity;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@DiscriminatorValue("programmer")
 public class Programmer extends User {
 
     @Enumerated(EnumType.STRING)

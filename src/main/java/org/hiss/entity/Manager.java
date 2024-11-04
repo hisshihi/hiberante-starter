@@ -1,5 +1,6 @@
 package org.hiss.entity;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.*;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@DiscriminatorValue("manager")
 public class Manager extends User {
 
     private String projectName;
