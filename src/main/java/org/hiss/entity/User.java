@@ -17,7 +17,7 @@ import java.util.*;
 @Entity
 @Table(name = "users", schema = "public")
 //@Access(AccessType.FIELD)
-public class User implements Comparable<User> {
+public class User implements Comparable<User>, BaseEntity<Long> {
 
 //    @Id
     /*
