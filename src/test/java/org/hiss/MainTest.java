@@ -4,13 +4,17 @@ import lombok.Cleanup;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
+import org.hibernate.jpa.QueryHints;
 import org.hiss.entity.*;
 import org.hiss.util.HibernateTestUtil;
 import org.hiss.util.HibernateUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static jakarta.persistence.FlushModeType.AUTO;
+import static jakarta.persistence.FlushModeType.COMMIT;
+import static org.hibernate.jpa.QueryHints.HINT_FETCH_SIZE;
 
 class MainTest {
 
@@ -21,15 +25,19 @@ class MainTest {
             session.beginTransaction();
 
 //            select u.* from users u where u.personalInfo.firstName = 'Hiss'
-            List<User> query = session.createQuery(
-                    "select u from User u" +
-                    " left join u.company c " +
-                    "where u.personalInfo.firstName = :firstName and c.name = :companyName " +
-                    "order by u.personalInfo.lastName desc", User.class
-            )
+            List<User> query = session.createNamedQuery(
+                            "findUserByName", User.class
+                    )
                     .setParameter("firstName", "Hiss")
                     .setParameter("companyName", "Google")
+                    .setFlushMode(COMMIT)
+                    .setHint(HINT_FETCH_SIZE, "50")
                     .list();
+
+            int countRows = session.createQuery("update User u set u.role = 'ADMIN'")
+                    .executeUpdate();
+
+            session.createNativeQuery("select u.* from users where u.firstName = 'Hiss'", User.class);
 
             session.getTransaction().commit();
 
